@@ -79,3 +79,6 @@
 
 # Cache files for the editor to use
 */DerivedDataCache/*
+
+#Ignore starter materials
+*/Content/StarterContent/
