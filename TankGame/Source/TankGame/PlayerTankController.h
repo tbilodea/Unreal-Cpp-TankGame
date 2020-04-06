@@ -15,8 +15,25 @@ class TANKGAME_API APlayerTankController : public APlayerController
 {
 	GENERATED_BODY()
 	
-public:
+private:
+
+	UPROPERTY(EditAnywhere)
+    float CrossHairXLocation= 0.5f;
+
+	UPROPERTY(EditAnywhere)
+    float CrossHairYLocation = 0.3333f;
+
+	UPROPERTY(EditAnywhere)
+	float LineTraceRange = 10000.0f;
+
 	ATank* GetControlledTank() const;
 
+	//Start the tank moving the barrel toward crosshair vector
+	void AimTowardCrosshair();
+	bool GetSightRayHitLocation(FVector& HitLocation);
+	bool GetLookVectorHitLocation(FVector WorldDirection, FVector& HitLocation) const;
+
 	virtual void BeginPlay() override;
+	virtual void Tick(float DeltaTime) override;
+
 };
