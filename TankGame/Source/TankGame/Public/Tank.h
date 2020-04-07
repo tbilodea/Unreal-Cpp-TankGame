@@ -15,10 +15,16 @@ class TANKGAME_API ATank : public APawn
 public:
 	void AimAt(FVector HitLocation);
 	
+	UFUNCTION(BlueprintCallable, Category = Setup)
+	void SetBarrelReference(UStaticMeshComponent* BarrelToSet);
+
 protected:
 	UTankAimingComponent* TankAimingComponent = nullptr;
 
 private:
+	UPROPERTY(EditAnywhere, Category = Firing)
+	float LaunchSpeed = 1000.f;
+
 	// Sets default values for this pawn's properties
 	ATank();
 

@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
 #include "TankAimingComponent.h"
+#include "Components/StaticMeshComponent.h" 
 
 // Sets default values for this component's properties
 UTankAimingComponent::UTankAimingComponent()
@@ -9,10 +9,7 @@ UTankAimingComponent::UTankAimingComponent()
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
-
-	// ...
 }
-
 
 // Called when the game starts
 void UTankAimingComponent::BeginPlay()
@@ -20,6 +17,10 @@ void UTankAimingComponent::BeginPlay()
 	Super::BeginPlay();	
 }
 
+void UTankAimingComponent::SetBarrelReference(UStaticMeshComponent* BarrelToSet)
+{
+	Barrel = BarrelToSet;
+}
 
 // Called every frame
 void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
@@ -27,9 +28,15 @@ void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, F
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 }
 
-void UTankAimingComponent::AimAt(FVector HitLocation)
+void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 {
 	auto TankName = GetOwner()->GetName();
-	UE_LOG(LogTemp, Warning, TEXT("%s aiming at %s"), *TankName, *HitLocation.ToString());
+	FString BarrelText = "No Barrel is set";
+	if(Barrel)
+	{
+		BarrelText = "Barrel is set and is located at ";
+		BarrelText += Barrel->GetComponentLocation().ToString();
+	}
+	UE_LOG(LogTemp, Warning, TEXT("%s aiming at %s and %s"), *TankName, *HitLocation.ToString(), *BarrelText);
 }
 
