@@ -3,6 +3,7 @@
 #include "PlayerTankController.h"
 #include "Camera/PlayerCameraManager.h" 
 #include "Engine/World.h"
+#include "Public/Tank.h"
 
 void APlayerTankController::BeginPlay()
 {
@@ -11,8 +12,6 @@ void APlayerTankController::BeginPlay()
     auto PlayerTank = GetControlledTank();
     if(!PlayerTank){
         UE_LOG(LogTemp, Error, TEXT("PlayerTankController did not find a Tank Pawn"));
-    } else {
-        UE_LOG(LogTemp, Warning, TEXT("PlayerTankController found tank pawn: %s"), *PlayerTank->GetName());
     }
 }
 
