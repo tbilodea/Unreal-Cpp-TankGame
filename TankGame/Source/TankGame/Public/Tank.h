@@ -8,6 +8,7 @@
 
 class UTankAimingComponent;
 class UTankBarrel;
+class UTurret;
 
 UCLASS()
 class TANKGAME_API ATank : public APawn
@@ -18,6 +19,9 @@ public:
 	void AimAt(FVector HitLocation);
 	
 	UFUNCTION(BlueprintCallable, Category = Setup)
+	void SetTurretReference(UTurret* TurretToSet);
+
+	UFUNCTION(BlueprintCallable, Category = Setup)
 	void SetBarrelReference(UTankBarrel* BarrelToSet);
 
 protected:
@@ -25,7 +29,7 @@ protected:
 
 private:
 	UPROPERTY(EditAnywhere, Category = Firing)
-	float LaunchSpeed = 100000.f;
+	float LaunchSpeed = 4000.f;
 
 	// Sets default values for this pawn's properties
 	ATank();
