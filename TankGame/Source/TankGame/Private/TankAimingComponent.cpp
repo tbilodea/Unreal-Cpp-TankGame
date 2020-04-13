@@ -32,7 +32,6 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 	FVector TossVelocity = FVector(0);
 	FVector StartLocation = Barrel->GetSocketLocation(FName("Projectile"));
 
-    UE_LOG(LogTemp, Warning, TEXT("Hit location is %s and start loc is %s"), *HitLocation.ToString(), *StartLocation.ToString());
 	bool HasAimSolution = UGameplayStatics::SuggestProjectileVelocity(
 		this, 
 		TossVelocity, 
@@ -48,13 +47,7 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 	if(HasAimSolution)
 	{
 		auto AimDirection = TossVelocity.GetSafeNormal();
-    	UE_LOG(LogTemp, Warning, TEXT("has aim solution"));
-
 		MoveBarrel(AimDirection);
-	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("NO aim solution"));
 	}
 }
 

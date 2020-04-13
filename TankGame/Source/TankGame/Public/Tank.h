@@ -18,6 +18,9 @@ class TANKGAME_API ATank : public APawn
 public:
 	void AimAt(FVector HitLocation);
 	
+	UFUNCTION(BlueprintCallable, Category = Input)
+	void Fire();
+
 	UFUNCTION(BlueprintCallable, Category = Setup)
 	void SetTurretReference(UTurret* TurretToSet);
 
