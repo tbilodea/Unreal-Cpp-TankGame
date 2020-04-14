@@ -46,7 +46,11 @@ void ATank::SetBarrelReference(UTankBarrel* BarrelToSet)
 
 void ATank::Fire()
 {
-	if(!Barrel){ return; }
+	bool Reloaded = (FPlatformTime::Seconds() - LastFireTime) > ReloadTimeInSeconds;
+	
+	if(!Barrel || !Reloaded){ return; }
+
+	LastFireTime = FPlatformTime::Seconds();
 
 	UE_LOG(LogTemp, Warning, TEXT("Firing Tank"));
 	

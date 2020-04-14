@@ -27,7 +27,7 @@ private:
 	UTankBarrel* Barrel = nullptr;
 	UTurret* Turret = nullptr;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditDefaultsOnly)
 	float BarrelMoveSpeed = 1.f;
 
 	void MoveBarrel(FVector AimDirection);
