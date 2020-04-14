@@ -9,6 +9,7 @@
 class UTankAimingComponent;
 class UTankBarrel;
 class UTurret;
+class AProjectile;
 
 UCLASS()
 class TANKGAME_API ATank : public APawn
@@ -33,6 +34,12 @@ protected:
 private:
 	UPROPERTY(EditAnywhere, Category = Firing)
 	float LaunchSpeed = 4000.f;
+
+	UPROPERTY(EditAnywhere, Category = Setup)
+	TSubclassOf<AProjectile> ProjectileBlueprint;
+
+	//Reference for spawning projectile
+	UTankBarrel* Barrel = nullptr;
 
 	// Sets default values for this pawn's properties
 	ATank();
