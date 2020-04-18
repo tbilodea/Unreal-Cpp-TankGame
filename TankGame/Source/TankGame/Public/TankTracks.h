@@ -21,5 +21,5 @@ public:
 private:
 	//Max force in N
 	UPROPERTY(EditDefaultsOnly)
-	float MaxDrivingForce = 400000.f;
+	float MaxDrivingForce = 60000000.f;
 };
