@@ -51,8 +51,6 @@ void ATank::Fire()
 	if(!Barrel || !Reloaded){ return; }
 
 	LastFireTime = FPlatformTime::Seconds();
-
-	UE_LOG(LogTemp, Warning, TEXT("Firing Tank"));
 	
 	//Spawn projectile at barrel socket Projectile location
 	auto Projectile = GetWorld()->SpawnActor<AProjectile>(
