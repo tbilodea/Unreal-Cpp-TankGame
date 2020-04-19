@@ -1,6 +1,7 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Copyright Bilodeau 2020
 
 #include "PlayerTankController.h"
+#include "Public/TankAimingComponent.h"
 #include "Camera/PlayerCameraManager.h" 
 #include "Engine/World.h"
 #include "Public/Tank.h"
@@ -9,9 +10,12 @@ void APlayerTankController::BeginPlay()
 {
     Super::BeginPlay();
 
-    auto PlayerTank = GetControlledTank();
-    if(!PlayerTank){
-        UE_LOG(LogTemp, Error, TEXT("PlayerTankController did not find a Tank Pawn"));
+    auto AimComponent = GetControlledTank()->FindComponentByClass<UTankAimingComponent>();
+
+    if(AimComponent) {
+        FoundAimingComponent(AimComponent);
+    } else {
+        UE_LOG(LogTemp, Error, TEXT("Player controller can't find aiming component at BeginPlay"));
     }
 }
 
@@ -28,14 +32,15 @@ void APlayerTankController::Tick(float DeltaTime)
 
 void APlayerTankController::AimTowardCrosshair()
 {
-    if(!GetControlledTank()) { return; }
+    auto ControlledTank = GetControlledTank();
+    if(!ControlledTank) { return; }
 
     FVector HitLocation;
 
     if(GetSightRayHitLocation(HitLocation))
     {
         //Move barrel towards aiming at point
-        GetControlledTank()->AimAt(HitLocation);
+        ControlledTank->AimAt(HitLocation);
     }
 }
 
