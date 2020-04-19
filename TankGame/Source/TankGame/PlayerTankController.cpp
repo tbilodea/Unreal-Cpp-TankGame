@@ -12,10 +12,8 @@ void APlayerTankController::BeginPlay()
 
     auto AimComponent = GetControlledTank()->FindComponentByClass<UTankAimingComponent>();
 
-    if(AimComponent) {
+    if(ensure(AimComponent)) {
         FoundAimingComponent(AimComponent);
-    } else {
-        UE_LOG(LogTemp, Error, TEXT("Player controller can't find aiming component at BeginPlay"));
     }
 }
 
@@ -33,7 +31,7 @@ void APlayerTankController::Tick(float DeltaTime)
 void APlayerTankController::AimTowardCrosshair()
 {
     auto ControlledTank = GetControlledTank();
-    if(!ControlledTank) { return; }
+    if(!ensure(ControlledTank)) { return; }
 
     FVector HitLocation;
 
