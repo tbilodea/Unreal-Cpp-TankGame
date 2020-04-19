@@ -30,6 +30,7 @@ public:
 	void SetBarrelReference(UTankBarrel* BarrelToSet);
 
 protected:
+	UPROPERTY(BlueprintReadOnly)
 	UTankAimingComponent* TankAimingComponent = nullptr;
 
 private:

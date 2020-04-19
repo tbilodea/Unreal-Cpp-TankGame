@@ -15,7 +15,10 @@ UCLASS()
 class TANKGAME_API APlayerTankController : public APlayerController
 {
 	GENERATED_BODY()
-	
+protected:
+	UFUNCTION(BlueprintCallable, Category = "Setup")
+	ATank* GetControlledTank() const;
+
 private:
 
 	UPROPERTY(EditAnywhere)
@@ -26,8 +29,6 @@ private:
 
 	UPROPERTY(EditAnywhere)
 	float LineTraceRange = 1000000.0f;
-
-	ATank* GetControlledTank() const;
 
 	//Start the tank moving the barrel toward crosshair vector
 	void AimTowardCrosshair();
