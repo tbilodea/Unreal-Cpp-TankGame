@@ -6,7 +6,6 @@
 #include "GameFramework/PlayerController.h"
 #include "PlayerTankController.generated.h"
 
-class ATank;
 class UTankAimingComponent;
 
 /**
@@ -17,13 +16,11 @@ class TANKGAME_API APlayerTankController : public APlayerController
 {
 	GENERATED_BODY()
 protected:
-	UFUNCTION(BlueprintCallable, Category = "Setup")
-	ATank* GetControlledTank() const;
-
 	UFUNCTION(BlueprintImplementableEvent, Category = "Setup")
 	void FoundAimingComponent(UTankAimingComponent* AimCompRef);
 
 private:
+	UTankAimingComponent* AimingComponent = nullptr;
 
 	UPROPERTY(EditAnywhere)
     float CrossHairXLocation= 0.5f;

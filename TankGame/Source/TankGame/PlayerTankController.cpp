@@ -4,22 +4,16 @@
 #include "Public/TankAimingComponent.h"
 #include "Camera/PlayerCameraManager.h" 
 #include "Engine/World.h"
-#include "Public/Tank.h"
 
 void APlayerTankController::BeginPlay()
 {
     Super::BeginPlay();
 
-    auto AimComponent = GetControlledTank()->FindComponentByClass<UTankAimingComponent>();
+    AimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
 
-    if(ensure(AimComponent)) {
-        FoundAimingComponent(AimComponent);
+    if(ensure(AimingComponent)) {
+        FoundAimingComponent(AimingComponent);
     }
-}
-
-ATank* APlayerTankController::GetControlledTank() const
-{
-    return Cast<ATank>(GetPawn());
 }
 
 void APlayerTankController::Tick(float DeltaTime)
@@ -30,15 +24,14 @@ void APlayerTankController::Tick(float DeltaTime)
 
 void APlayerTankController::AimTowardCrosshair()
 {
-    auto ControlledTank = GetControlledTank();
-    if(!ensure(ControlledTank)) { return; }
+    if(!ensure(AimingComponent)) { return; }
 
     FVector HitLocation;
 
     if(GetSightRayHitLocation(HitLocation))
     {
         //Move barrel towards aiming at point
-        ControlledTank->AimAt(HitLocation);
+        AimingComponent->AimAt(HitLocation);
     }
 }
 
