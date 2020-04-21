@@ -21,6 +21,39 @@ void UTankAimingComponent::Initialize(UTankBarrel* BarrelToSet, UTurret* TurretT
 	Turret = TurretToSet;
 }
 
+void UTankAimingComponent::BeginPlay()
+{
+	Super::BeginPlay();
+	LastFireTime = GetWorld()->GetTimeSeconds();
+
+	if(!ensure(Barrel)) { return; }
+	AimDirection = Barrel->GetForwardVector();
+}
+
+void UTankAimingComponent::TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction)
+{
+	if( (GetWorld()->GetTimeSeconds() - LastFireTime) < ReloadTimeInSeconds)
+	{
+		FiringStatus = EFiringStatus::Reloading;
+	}
+	else if(IsBarrelMoving())
+	{
+		FiringStatus = EFiringStatus::Aiming;
+	}
+	else
+	{
+		FiringStatus = EFiringStatus::Locked;
+	}
+}
+
+bool UTankAimingComponent::IsBarrelMoving()
+{
+	if(!ensure(Barrel)) { return false; }
+
+	FVector BarrelForward = Barrel->GetForwardVector();
+	return !BarrelForward.Equals(AimDirection, 0.01f);
+}
+
 void UTankAimingComponent::AimAt(FVector HitLocation)
 {
 	if(!ensure(Barrel && Turret)){ return; }
@@ -42,12 +75,12 @@ void UTankAimingComponent::AimAt(FVector HitLocation)
 
 	if(HasAimSolution)
 	{
-		auto AimDirection = TossVelocity.GetSafeNormal();
-		MoveBarrel(AimDirection);
+		AimDirection = TossVelocity.GetSafeNormal();
+		MoveBarrel();
 	}
 }
 
-void UTankAimingComponent::MoveBarrel(FVector AimDirection)
+void UTankAimingComponent::MoveBarrel()
 {
 	if(!Barrel || !Turret) { return; }
 
@@ -61,14 +94,13 @@ void UTankAimingComponent::MoveBarrel(FVector AimDirection)
 
 void UTankAimingComponent::Fire()
 {
-	if(!ensure(Barrel && ProjectileBlueprint)) {return; }
+	if(FiringStatus == EFiringStatus::Reloading){ return; }
 
-	bool Reloaded = (FPlatformTime::Seconds() - LastFireTime) > ReloadTimeInSeconds;
+	LastFireTime = GetWorld()->GetTimeSeconds();
 	
-	if(!Reloaded){ return; }
+	if(!ensure(Barrel)) {return; }
+	if(!ensure(ProjectileBlueprint)) {return; }
 
-	LastFireTime = FPlatformTime::Seconds();
-	
 	//Spawn projectile at barrel socket Projectile location
 	auto Projectile = GetWorld()->SpawnActor<AProjectile>(
 		ProjectileBlueprint, 
