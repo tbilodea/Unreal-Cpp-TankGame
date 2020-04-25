@@ -9,6 +9,8 @@ void APlayerTankController::BeginPlay()
 {
     Super::BeginPlay();
 
+    if(!ensure(GetPawn())) { return; }
+
     AimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
 
     if(ensure(AimingComponent)) {
@@ -24,6 +26,7 @@ void APlayerTankController::Tick(float DeltaTime)
 
 void APlayerTankController::AimTowardCrosshair()
 {
+    if(!ensure(GetPawn())) { return; }
     if(!ensure(AimingComponent)) { return; }
 
     FVector HitLocation;
@@ -46,12 +49,8 @@ bool APlayerTankController::GetSightRayHitLocation(FVector& HitLocation)
     
     FVector WorldDirection, WorldLocation;
     DeprojectScreenPositionToWorld(ScreenLocation.X, ScreenLocation.Y, WorldLocation, WorldDirection);
-        
-    if(GetLookVectorHitLocation(WorldDirection, HitLocation))
-    {
-        return true;
-    }
-    return false;
+
+    return GetLookVectorHitLocation(WorldDirection, HitLocation);
 }
 
 bool APlayerTankController::GetLookVectorHitLocation(FVector WorldDirection, FVector& HitLocation) const

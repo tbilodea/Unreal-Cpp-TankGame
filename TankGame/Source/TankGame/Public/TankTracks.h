@@ -19,7 +19,18 @@ public:
 	void SetThrottle(float Speed);
 
 private:
+	virtual void BeginPlay() override;
+
 	//Max force in N
 	UPROPERTY(EditDefaultsOnly)
-	float MaxDrivingForce = 60000000.f;
+	float MaxDrivingForce = 300000000.0f;
+
+	float CurrentThrottle = 0.f;
+
+	UTankTracks();
+	void ApplySidewaysForce();
+	void AddDrivingForce();
+
+	UFUNCTION()
+	void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit);
 };
