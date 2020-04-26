@@ -6,6 +6,8 @@
 UTankTracks::UTankTracks()
 {
     PrimaryComponentTick.bCanEverTick = true;
+    
+    SetNotifyRigidBodyCollision(true);
 }
 
 void UTankTracks::SetThrottle(float Throttle)
