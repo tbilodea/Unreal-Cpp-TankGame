@@ -11,7 +11,8 @@ enum class EFiringStatus : uint8
 {
 	Reloading,
 	Aiming,
-	Locked
+	Locked,
+	NoAmmo
 };
 
 class AProjectile;
@@ -28,10 +29,7 @@ public:
 	UTankAimingComponent();
 
 	UFUNCTION(BlueprintCallable, Category = "Setup")
-	void Initialize(UTankBarrel* BarrelToSet, UTurret* TurretToSet);
-
-	// UFUNCTION(BlueprintImplementableEvent, Category = "Setup")
-	// void SetAimingComponent(UTankAimingComponent* Aiming);
+	void Initialize(UTankBarrel* BarrelToSet, UTurret* TurretToSet, TSubclassOf<AProjectile> ProjectileBPToSet);
 
 	UFUNCTION(BlueprintCallable, Category = "Input")
 	void Fire();
@@ -40,6 +38,9 @@ public:
 
 	EFiringStatus GetFiringState() const;
 
+	UFUNCTION(BlueprintCallable, Category = "Input")
+	int GetRoundsLeft();
+
 protected:
 	UPROPERTY(BlueprintReadOnly, Category = "State")
 	EFiringStatus FiringStatus = EFiringStatus::Reloading;
@@ -47,8 +48,11 @@ protected:
 private:
 	UTankBarrel* Barrel = nullptr;
 	UTurret* Turret = nullptr;
+	TSubclassOf<AProjectile> ProjectileBlueprint = nullptr;
+
 	float LastFireTime = 0.f;
 	FVector AimDirection = FVector(0);
+	int AmmoCount = 5;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Firing")
 	float LaunchSpeed = 4000.f;
@@ -58,9 +62,6 @@ private:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Firing")
 	float ReloadTimeInSeconds = 3.f;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Setup")
-	TSubclassOf<AProjectile> ProjectileBlueprint;
 
 	void MoveBarrel();
 	bool IsBarrelMoving();

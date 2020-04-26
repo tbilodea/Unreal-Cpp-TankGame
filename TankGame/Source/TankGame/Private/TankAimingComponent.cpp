@@ -15,10 +15,11 @@ UTankAimingComponent::UTankAimingComponent()
 	PrimaryComponentTick.bCanEverTick = true;
 }
 
-void UTankAimingComponent::Initialize(UTankBarrel* BarrelToSet, UTurret* TurretToSet)
+void UTankAimingComponent::Initialize(UTankBarrel* BarrelToSet, UTurret* TurretToSet, TSubclassOf<AProjectile> ProjectileToSet)
 {
 	Barrel = BarrelToSet;
 	Turret = TurretToSet;
+	ProjectileBlueprint = ProjectileToSet;
 }
 
 void UTankAimingComponent::BeginPlay()
@@ -32,7 +33,11 @@ void UTankAimingComponent::BeginPlay()
 
 void UTankAimingComponent::TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction)
 {
-	if( (GetWorld()->GetTimeSeconds() - LastFireTime) < ReloadTimeInSeconds)
+	if(AmmoCount <= 0)
+	{
+		FiringStatus = EFiringStatus::NoAmmo;
+	}
+	else if( (GetWorld()->GetTimeSeconds() - LastFireTime) < ReloadTimeInSeconds)
 	{
 		FiringStatus = EFiringStatus::Reloading;
 	}
@@ -106,7 +111,7 @@ void UTankAimingComponent::MoveBarrel()
 
 void UTankAimingComponent::Fire()
 {
-	if(FiringStatus == EFiringStatus::Reloading){ return; }
+	if(FiringStatus == EFiringStatus::Reloading || FiringStatus == EFiringStatus::NoAmmo){ return; }
 
 	LastFireTime = GetWorld()->GetTimeSeconds();
 	
@@ -120,4 +125,11 @@ void UTankAimingComponent::Fire()
 		Barrel->GetSocketRotation(FName("Projectile")));
 
 	Projectile->LaunchProjectile(LaunchSpeed);
+
+	AmmoCount--;
+}
+
+int UTankAimingComponent::GetRoundsLeft()
+{
+	return AmmoCount;
 }
