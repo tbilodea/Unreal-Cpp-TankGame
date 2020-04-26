@@ -20,7 +20,7 @@ public:
 	virtual void Tick(float DeltaTime) override;
 	
 private:
-	float AcceptanceRadius = 300.f;
+	float AcceptanceRadius = 80000.f;
 
 	UTankAimingComponent* AimingComponent = nullptr;
 };

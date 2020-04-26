@@ -23,7 +23,7 @@ private:
 
 	//Max force in N
 	UPROPERTY(EditDefaultsOnly)
-	float MaxDrivingForce = 300000000.0f;
+	float MaxDrivingForce = 150000000.0f;
 
 	float CurrentThrottle = 0.f;
 
