@@ -39,7 +39,7 @@ public:
 	EFiringStatus GetFiringState() const;
 
 	UFUNCTION(BlueprintCallable, Category = "Input")
-	int GetRoundsLeft();
+	int32 GetRoundsLeft();
 
 protected:
 	UPROPERTY(BlueprintReadOnly, Category = "State")
@@ -52,7 +52,9 @@ private:
 
 	float LastFireTime = 0.f;
 	FVector AimDirection = FVector(0);
-	int AmmoCount = 5;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Firing")
+	int32 AmmoCount = 5;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Firing")
 	float LaunchSpeed = 4000.f;

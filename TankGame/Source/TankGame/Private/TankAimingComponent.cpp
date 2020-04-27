@@ -129,7 +129,7 @@ void UTankAimingComponent::Fire()
 	AmmoCount--;
 }
 
-int UTankAimingComponent::GetRoundsLeft()
+int32 UTankAimingComponent::GetRoundsLeft()
 {
 	return AmmoCount;
 }
