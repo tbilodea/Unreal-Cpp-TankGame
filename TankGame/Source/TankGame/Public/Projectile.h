@@ -8,6 +8,7 @@
 
 class UProjectileMovementComponent;
 class UParticleSystemComponent;
+class URadialForceComponent;
 
 UCLASS()
 class TANKGAME_API AProjectile : public AActor
@@ -18,9 +19,6 @@ public:
 	// Sets default values for this actor's properties
 	AProjectile();
 
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
-	
 	void LaunchProjectile(float Speed);
 
 protected:
@@ -30,9 +28,23 @@ protected:
 private:
 	UProjectileMovementComponent* ProjectileMovementComponent = nullptr;
 
+	UPROPERTY(EditDefaultsOnly)
+	float DestroyTimer = 5.f;
+
 	UPROPERTY(VisibleAnywhere)
 	UStaticMeshComponent* CollisionMesh = nullptr;
 
 	UPROPERTY(VisibleAnywhere)
 	UParticleSystemComponent* LaunchBlast = nullptr;
+	
+	UPROPERTY(VisibleAnywhere)
+	UParticleSystemComponent* ImpactBlast = nullptr;
+
+	UPROPERTY(VisibleAnywhere)
+	URadialForceComponent* ExplosionForce = nullptr;
+
+	void DestroyDelay();
+
+	UFUNCTION()
+	void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit);
 };
