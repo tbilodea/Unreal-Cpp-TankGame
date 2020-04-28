@@ -23,4 +23,9 @@ private:
 	float AcceptanceRadius = 80000.f;
 
 	UTankAimingComponent* AimingComponent = nullptr;
+
+	virtual void SetPawn(APawn* InPawn) override;
+
+	UFUNCTION()
+	void OnTankDeath();
 };

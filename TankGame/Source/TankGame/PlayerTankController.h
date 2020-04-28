@@ -9,7 +9,7 @@
 class UTankAimingComponent;
 
 /**
- * 
+ * All player controlled pawn's settings
  */
 UCLASS()
 class TANKGAME_API APlayerTankController : public APlayerController
@@ -35,8 +35,12 @@ private:
 	void AimTowardCrosshair();
 	bool GetSightRayHitLocation(FVector& HitLocation);
 	bool GetLookVectorHitLocation(FVector WorldDirection, FVector& HitLocation) const;
+	
+	UFUNCTION()
+	void OnTankDeath();
 
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
+	virtual void SetPawn(APawn* InPawn) override;
 
 };

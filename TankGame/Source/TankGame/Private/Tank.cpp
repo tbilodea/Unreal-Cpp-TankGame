@@ -18,10 +18,9 @@ float ATank::TakeDamage(float Damage, struct FDamageEvent const& DamageEvent,
 	CurrentHealth -= ClampDamage;
 	if(CurrentHealth <= 0)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("DEAD"));
+		OnDeath.Broadcast();
 	}
 
-	UE_LOG(LogTemp, Warning, TEXT("Damage amt %f damage to apply %i"), Damage, ClampDamage);
 	return ClampDamage;
 }
 
