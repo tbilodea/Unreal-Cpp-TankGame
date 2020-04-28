@@ -9,14 +9,23 @@ ATank::ATank()
 	PrimaryActorTick.bCanEverTick = false;
 }
 
-// Called when the game starts or when spawned
-void ATank::BeginPlay()
+float ATank::TakeDamage(float Damage, struct FDamageEvent const& DamageEvent, 
+	AController* EventInstigator, AActor* DamageCauser)
 {
-	Super::BeginPlay();
+	int32 DamagePoints = FPlatformMath::RoundToInt(Damage);
+	int32 ClampDamage = FMath::Clamp(DamagePoints, 0, CurrentHealth);
+
+	CurrentHealth -= ClampDamage;
+	if(CurrentHealth <= 0)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("DEAD"));
+	}
+
+	UE_LOG(LogTemp, Warning, TEXT("Damage amt %f damage to apply %i"), Damage, ClampDamage);
+	return ClampDamage;
 }
 
-// Called to bind functionality to input
-void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
+float ATank::GetHealthPercentage()
 {
-	Super::SetupPlayerInputComponent(PlayerInputComponent);
+	return (float)CurrentHealth/(float)StartingHealth;
 }

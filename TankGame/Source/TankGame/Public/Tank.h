@@ -11,15 +11,19 @@ class TANKGAME_API ATank : public APawn
 {
 	GENERATED_BODY()
 
+	UFUNCTION(BlueprintPure, Category = "Health")
+	float GetHealthPercentage();
 
 private:
+	UPROPERTY(EditDefaultsOnly)
+	int32 StartingHealth = 100;
+
+	UPROPERTY(VisibleAnywhere)
+	int32 CurrentHealth = StartingHealth;
+
 	// Sets default values for this pawn's properties
 	ATank();
 
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
-	
-	// Called to bind functionality to input
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+	virtual float TakeDamage(float Damage, struct FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
 
 };

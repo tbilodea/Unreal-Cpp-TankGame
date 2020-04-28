@@ -28,8 +28,11 @@ protected:
 private:
 	UProjectileMovementComponent* ProjectileMovementComponent = nullptr;
 
-	UPROPERTY(EditDefaultsOnly)
+	UPROPERTY(EditDefaultsOnly, Category="Setup")
 	float DestroyTimer = 5.f;
+
+	UPROPERTY(EditDefaultsOnly, Category="Setup")
+	float ProjectileDamage = 20.f;
 
 	UPROPERTY(VisibleAnywhere)
 	UStaticMeshComponent* CollisionMesh = nullptr;
