@@ -62,7 +62,7 @@ bool APlayerTankController::GetLookVectorHitLocation(FVector WorldDirection, FVe
     auto EndLocation = LineTraceRange * WorldDirection + CameraLocation;
 
     if(GetWorld()->LineTraceSingleByChannel(Hit, CameraLocation, 
-        EndLocation, ECollisionChannel::ECC_Visibility))
+        EndLocation, ECollisionChannel::ECC_Camera))
     {
         HitLocation = Hit.Location;
         return true;
@@ -88,7 +88,5 @@ void APlayerTankController::SetPawn(APawn* InPawn)
 
 void APlayerTankController::OnTankDeath()
 {
-    UE_LOG(LogTemp, Warning, TEXT("Oh boy player is ded"));
-    
     StartSpectatingOnly();
 }

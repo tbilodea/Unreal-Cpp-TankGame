@@ -10,6 +10,13 @@ AMortar::AMortar()
 	PrimaryActorTick.bCanEverTick = false;
 }
 
+void AMortar::BeginPlay()
+{
+	Super::BeginPlay();
+	
+	CurrentHealth = StartingHealth;
+}
+
 float AMortar::GetHealthPercentage()
 {
 	return (float)CurrentHealth/(float)StartingHealth;

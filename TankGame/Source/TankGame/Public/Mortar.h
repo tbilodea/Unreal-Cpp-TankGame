@@ -19,11 +19,12 @@ private:
 	int32 StartingHealth = 40;
 
 	UPROPERTY(VisibleAnywhere)
-	int32 CurrentHealth = StartingHealth;
+	int32 CurrentHealth; //init in beginplay
 
 	// Sets default values for this pawn's properties
 	AMortar();
 
+	virtual void BeginPlay() override;
 	virtual float TakeDamage(float Damage, struct FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
 
 };
